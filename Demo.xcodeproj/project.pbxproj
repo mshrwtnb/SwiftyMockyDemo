@@ -145,6 +145,7 @@
 			buildConfigurationList = 10E03A4C241D094B00AC5342 /* Build configuration list for PBXNativeTarget "Demo" */;
 			buildPhases = (
 				79C209CE7F074A4472FBDC60 /* [CP] Check Pods Manifest.lock */,
+				101108DB241D19A20019F1E1 /* SwiftFormat */,
 				10E03A29241D094A00AC5342 /* Sources */,
 				10E03A2A241D094A00AC5342 /* Frameworks */,
 				10E03A2B241D094A00AC5342 /* Resources */,
@@ -237,6 +238,24 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		101108DB241D19A20019F1E1 /* SwiftFormat */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = SwiftFormat;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/SwiftFormat/CommandLineTool/swiftformat\" \"$SRCROOT\"\n";
+		};
 		4625B3772951E4F74F3E56F7 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
