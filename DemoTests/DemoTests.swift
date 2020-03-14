@@ -6,12 +6,11 @@
 //  Copyright © 2020 Masahiro Watanabe. All rights reserved.
 //
 
-import XCTest
-import SwiftyMocky
 @testable import Demo
+import SwiftyMocky
+import XCTest
 
 class DemoTests: XCTestCase {
-
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }
@@ -27,13 +26,13 @@ class DemoTests: XCTestCase {
 
     func testPerformanceExample() {
         // This is an example of a performance test case.
-        self.measure {
+        measure {
             // Put the code you want to measure the time of here.
         }
     }
 
     func testFindUserUseCase() {
-        let id = Int.random(in: 0..<100)
+        let id = Int.random(in: 0 ..< 100)
 
         let mock = UserRepositoryMock()
         mock.given(.find(by: .value(id), willReturn: User(id: id)))
