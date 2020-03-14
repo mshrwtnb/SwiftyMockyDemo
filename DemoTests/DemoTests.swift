@@ -7,6 +7,7 @@
 //
 
 import XCTest
+import SwiftyMocky
 @testable import Demo
 
 class DemoTests: XCTestCase {
@@ -31,4 +32,17 @@ class DemoTests: XCTestCase {
         }
     }
 
+    func testFindUserUseCase() {
+        let id = Int.random(in: 0..<100)
+
+        let mock = UserRepositoryMock()
+        mock.given(.find(by: .value(id), willReturn: User(id: id)))
+
+        let sut = FindUserUserCase(userRepository: mock)
+        if let user = sut.find(by: id), user.id == id {
+            XCTAssert(true)
+        } else {
+            XCTFail()
+        }
+    }
 }
