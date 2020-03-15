@@ -32,16 +32,63 @@ class DemoTests: XCTestCase {
     }
 
     func testFindUserUseCase() {
-        let id = Int.random(in: 0 ..< 100)
+        let id = Int.random()
+        let name = String.random()
 
         let mock = UserRepositoryMock()
-        mock.given(.find(by: .value(id), willReturn: User(id: id)))
+        // Stub
+        mock.given(.find(by: .value(id), willReturn: User(id: id, name: name)))
 
-        let sut = FindUserUserCase(userRepository: mock)
-        if let user = sut.find(by: id), user.id == id {
+        let sut = FindUserUseCaseImpl(userRepository: mock)
+        if let user = sut.execute(id), user.id == id {
             XCTAssert(true)
         } else {
             XCTFail()
         }
+
+        // Verify mock
+        mock.verify(.find(by: .value(id)), count: 1)
+    }
+
+    func testUpdateUserUseCase() {
+        let id = Int.random()
+        let name = String.random()
+
+        let mock = UserRepositoryMock()
+
+        let sut = UpdateUserUseCaseImpl(userRepository: mock)
+        sut.execute(id, name: name)
+        mock.verify(.update(.value(id), name: .value(name)), count: 1)
+    }
+
+    func testProfileViewModel() {
+        let id = Int.random()
+        let name = String.random()
+        let taro = "Taro"
+
+        let findUserMock = FindUserUseCaseMock()
+        findUserMock.given(.execute(.value(id), willReturn: User(id: id, name: name)))
+
+        let updateUserMock = UpdateUserUseCaseMock()
+
+        let sut = ProfileViewModelImpl(id: id, findUserUseCase: findUserMock, updateUserUseCase: updateUserMock)
+        let user = sut.findMyself()
+        assert(user.id == id && user.name == name)
+        findUserMock.verify(.execute(.value(id)), count: 1)
+
+        sut.updateNameToTaro()
+        updateUserMock.verify(.execute(.value(id), name: .value(taro)), count: 1)
+    }
+}
+
+extension Int {
+    static func random(_ min: Int = 0, max: Int = 100) -> Int {
+        return Int.random(in: min ... max)
+    }
+}
+
+extension String {
+    static func random() -> String {
+        return UUID().uuidString
     }
 }
